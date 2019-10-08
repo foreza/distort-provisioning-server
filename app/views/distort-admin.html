@@ -16,13 +16,27 @@
             <h1>Distort Provision Tool</h1>
 
             <div>
-                Info to broadcast: <input type="text" name="fname"><br>
-                Session Identifier: <input type="text" name="fname"><br>
+                <form class="col s12">
+                  <div class="row">
+                      <div class="row">
+                          <input placeholder="Searchable UID / identifier" id="form_broadcastUID" type="text" class="validate">
+                          <label for="first_name">Session Identifier: </label>
+                      </div>  
+                      <div class="row">
+                        <input placeholder="Your content to share here" id="form_broadcastContent" type="text" class="validate">
+                        <label for="first_name">Info to broadcast: </label>
+                      </div>
+                    </div>
+                 
+                    <div>
+                        <a class="waves-effect waves-light btn" onclick="createSession()">Submit</a>
+                    </div>             
+                </form>
+
+
             </div>
             
-            <div>
-                <a class="waves-effect waves-light btn" onclick="createNewTestSession()">Submit</a>
-            </div>
+
             
             <div class="result">
             </div>
@@ -76,20 +90,20 @@
 
       });
 
-      function createNewTestSession(){
+    function createSession(){
 
-        $.ajax({
-          url: 'http://localhost:8989/api/distort/',
-          dataType: 'json',
-          type: 'post',
-          contentType: 'application/json',
-          data: JSON.stringify( { "broadcastUID" : "123456", "broadcastText" : "hello, world" }),
-          processData: false,
-          success: function( data, textStatus, jQxhr ){ $( ".result" ).html( data ); },
-          error: function( jqXhr, textStatus, errorThrown ){console.log(errorThrown);}
-      });
-      
-    }
+    $.ajax({
+      url: 'http://localhost:8989/api/distort/',
+      dataType: 'json',
+      type: 'post',
+      contentType: 'application/json',
+      data: JSON.stringify( { "broadcastUID" : "123456", "broadcastText" : "hello, world" }),
+      processData: false,
+      success: function( data, textStatus, jQxhr ){ $( ".result" ).html( data ); },
+      error: function( jqXhr, textStatus, errorThrown ){console.log(errorThrown);}
+    });
+
+    } 
 
 
       function getListOfAllSessions(){
