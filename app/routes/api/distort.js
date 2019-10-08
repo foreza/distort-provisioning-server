@@ -31,6 +31,10 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
 
+	const { broadcastUID, broadcastText} = req.body;
+
+	console.log('POST request!!', broadcastUID);
+
 	// If we are not provided the ID or fname or last name in the req body, fail it
 	if (!broadcastUID || !broadcastText) {
         return res.sendStatus(400);

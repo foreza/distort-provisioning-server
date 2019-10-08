@@ -4,9 +4,9 @@ const distortSessionUtils = {};
 // This utility method creates a new session
 distortSessionUtils.createSession = newDistortSession => {
     return new Promise((resolve, reject) => {
-        distortSessionModel.create(newDistortSession, (err, createdDistortDession) => {
+        distortSessionModel.create(newDistortSession, (err, createdDistortSession) => {
             if (err) reject(err);
-            resolve(createdDistortDession);
+            resolve(createdDistortSession);
         });
     });
 }
