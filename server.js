@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 // Connect to Mongo DB
-mongoose.connect('mongodb://localhost/distort-portal', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost/distort-portal', {useNewUrlParser: true, useUnifiedTopology: true});
 
 
 // Require our models

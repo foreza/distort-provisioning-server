@@ -1,0 +1,138 @@
+<html>
+    <head>
+
+         <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+            
+
+    </head>
+    <body>
+
+        
+        <div class="container">
+            <h1>Distort Provision Tool</h1>
+
+            <div>
+                Info to broadcast: <input type="text" name="fname"><br>
+                Session Identifier: <input type="text" name="fname"><br>
+            </div>
+            
+            <div>
+                <a class="waves-effect waves-light btn" onclick="createNewTestSession()">Submit</a>
+            </div>
+            
+            <div class="result">
+            </div>
+
+        </div>
+
+
+        <div class="container">
+
+            <div>
+                <a class="waves-effect waves-light btn" onclick="getListOfAllSessions()">List all sessions</a>
+            </div>
+
+                <table>
+                        <thead>
+                          <tr>
+                              <th>Generated Session ID</th>
+                              <th>Specified Session UID</th>
+                              <th>Is Session Active</th>
+                              <th>Tools</th>
+                          </tr>
+                        </thead>
+                
+                        <tbody id="sessionList">
+                          <tr>
+                            <td>123456</td>
+                            <td>123456</td>
+                            <td>True</td>
+                            <td><a class="waves-effect waves-light btn">button</a></td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                            
+
+
+        </div>
+
+    <!-- Import jquery and jquery core  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script>
+
+      $( document ).ready(function() {
+        
+        // Setup our headers
+        $.ajaxSetup({headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    }
+});
+
+      });
+
+      function createNewTestSession(){
+
+        $.ajax({
+          url: 'http://localhost:8989/api/distort/',
+          dataType: 'json',
+          type: 'post',
+          contentType: 'application/json',
+          data: JSON.stringify( { "broadcastUID" : "123456", "broadcastText" : "hello, world" }),
+          processData: false,
+          success: function( data, textStatus, jQxhr ){ $( ".result" ).html( data ); },
+          error: function( jqXhr, textStatus, errorThrown ){console.log(errorThrown);}
+      });
+      
+    }
+
+
+      function getListOfAllSessions(){
+        $.ajax({
+          url: 'http://localhost:8989/api/distort/',
+          dataType: 'json',
+          type: 'get',
+          contentType: 'application/json',
+          processData: false,
+          success: function( data, textStatus, jQxhr ){
+            
+             $( "#sessionList" ).html(util_formatSessionData(data)); 
+            
+            },
+          error: function( jqXhr, textStatus, errorThrown ){console.log(errorThrown);}
+      });
+      }
+        
+      function util_formatSessionData(data){
+        console.log(data);
+
+        var htmlReturn = "";
+
+        for (var i = 0; i < data.length; ++i) {
+
+          htmlReturn += "<tr>"
+            + "<td class='td_genID'>" + data[i]._id + "</td>"
+            + "<td class='td_uID'>" + data[i].broadcastUID + "</td>"
+            + "<td class='td_isActive'>" + data[i].isSessionActive + "</td>"
+            + "<td><a class='waves-effect waves-light btn'>button</a></td>"
+                          + "</tr>";
+
+        }
+
+        return htmlReturn;
+
+      }
+
+
+    </script>
+
+    </body>
+
+
+</html>
+
