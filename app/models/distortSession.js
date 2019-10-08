@@ -25,7 +25,7 @@ var DistortSessionSchema = new Schema({
     },
     isSessionActive: {
         type: Boolean,
-        default: true,          // Set isSessionActive to default to 'true' for ease of testing
+        default: false,          // Set isSessionActive to default to 'true' for ease of testing
         require: false
     },
     meta: {

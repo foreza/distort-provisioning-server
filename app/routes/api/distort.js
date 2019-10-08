@@ -30,7 +30,6 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-	const { broadcastUID, broadcastText } = req.body;
 
 	// If we are not provided the ID or fname or last name in the req body, fail it
 	if (!broadcastUID || !broadcastText) {
@@ -42,6 +41,34 @@ router.post('/', (req, res) => {
 
 
 });
+
+
+router.put('/', (req, res) => {
+
+	const { broadcastUID } = req.body;
+
+	console.log('Put request!!', broadcastUID);
+
+
+	if(broadcastUID){
+		distortUtils.startDistortSessionWithDistortSessionUID(broadcastUID)
+			.then(session => {
+				if(!session){
+					console.log('ERROR [-1], no session with that ID' )
+					return res.sendStatus(404)
+				}else{
+					console.log('SUCCESS [], session found with that ID' )
+					return res.sendStatus(202)
+				}
+			});
+	} else {
+		console.log('ERROR [-1], invalid request' )
+		return res.sendStatus(404)
+	}
+
+
+});
+
 
 
 

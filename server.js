@@ -4,8 +4,8 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 // Connect to Mongo DB
-mongoose.connect('mongodb://localhost/distort-portal', {useNewUrlParser: true, useUnifiedTopology: true});
-
+mongoose.connect('mongodb://localhost/distort-portal', {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
+mongoose.set('useFindAndModify', false);
 
 // Require our models
 var student = require("./app/models/distortSession");
