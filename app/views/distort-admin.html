@@ -29,7 +29,7 @@
                     </div>
                  
                     <div>
-                        <a class="waves-effect waves-light btn" onclick="createSession()">Submit</a>
+                        <a class="waves-effect waves-light btn" onclick="createNewTestSession()">Submit</a>
                     </div>             
                 </form>
 
@@ -90,25 +90,25 @@
 
       });
 
-    function createSession(){
+      function createSession(){
 
-    $.ajax({
-      url: 'http://localhost:8989/api/distort/',
-      dataType: 'json',
-      type: 'post',
-      contentType: 'application/json',
-      data: JSON.stringify( { "broadcastUID" : "123456", "broadcastText" : "hello, world" }),
-      processData: false,
-      success: function( data, textStatus, jQxhr ){ $( ".result" ).html( data ); },
-      error: function( jqXhr, textStatus, errorThrown ){console.log(errorThrown);}
-    });
-
-    } 
+        $.ajax({
+          url: 'provision.jasonthechiu.com/api/distort/',
+          dataType: 'json',
+          type: 'post',
+          contentType: 'application/json',
+          data: JSON.stringify( { "broadcastUID" : $("#form_broadcastUID").val(), "broadcastText" : $("#form_broadcastContent").val()}),
+          processData: false,
+          success: function( data, textStatus, jQxhr ){ $( ".result" ).html( data ); },
+          error: function( jqXhr, textStatus, errorThrown ){console.log(errorThrown);}
+      });
+      
+    }
 
 
       function getListOfAllSessions(){
         $.ajax({
-          url: 'http://localhost:8989/api/distort/',
+          url: 'provision.jasonthechiu.com/api/distort/',
           dataType: 'json',
           type: 'get',
           contentType: 'application/json',
