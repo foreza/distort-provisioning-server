@@ -15,10 +15,10 @@ router.get('/:uid', (req, res) => {
 					return res.sendStatus(404)
 				}else{
 					console.log('SUCCESS [], session found with that ID' )
-					return res.send(session);
+					return res.status(200).send(session);
 				}
 			});
-	}
+	}0
 });
 
 
