@@ -7,13 +7,15 @@ MVP Backend server for provisioning test devices.
 
 
 ## TODOs:
-* Upgrade Node Dependencies to latest versions 
+* Upgrade Node Dependencies to latest versions (done)
 * Add all proposed APIs to documentation
+* Add API authentication to 'admin' routes (ie: listing all sessions should be an admin only function)
+* Add additional layer of encryption to the broadcast info (using hmac/bcrypt)
 
 
 # API DOCUMENTATION 
 
-*Show all available distort sessions.*
+*[ADMIN] Show all available distort sessions.*
 
 **URL** : `/api/distort`
 **Method** : `GET`
@@ -37,7 +39,7 @@ MVP Backend server for provisioning test devices.
 ```
 
 
-*Get a specific distort session by ID (if present)*
+*[PUBLIC] Get a specific distort session information by ID (if present)*
 
 **URL** : `/api/distort`
 **Method** : `GET`
