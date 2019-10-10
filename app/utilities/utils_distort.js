@@ -1,7 +1,7 @@
 const distortSessionModel =  require('../models/distortSession');
 const distortSessionUtils = {};
 
-// This utility method creates a new session
+// [Admin] This utility method creates a new session
 distortSessionUtils.createSession = newDistortSession => {
     return new Promise((resolve, reject) => {
         distortSessionModel.create(newDistortSession, (err, createdDistortSession) => {
@@ -11,7 +11,7 @@ distortSessionUtils.createSession = newDistortSession => {
     });
 }
 
-// This utility returns a session information given a session unique ID
+// [Admin] This utility returns a session information given a session unique ID
 distortSessionUtils.getDistortSessionByDistortSessionUID = distortSessionID => {
     return new Promise((resolve, reject) => {
         console.log('Performing lookup on this id: ', distortSessionID);
@@ -21,6 +21,18 @@ distortSessionUtils.getDistortSessionByDistortSessionUID = distortSessionID => {
         });
     });
 };
+
+// [Public] This utility returns an ACTIVE session information given a session unique ID
+distortSessionUtils.getActiveDistortSessionByDistortSessionUID = distortSessionID => {
+    return new Promise((resolve, reject) => {
+        console.log('Performing lookup on this id: ', distortSessionID);
+        distortSessionModel.find({broadcastUID : distortSessionID, isSessionActive: true}, (err, returnedDistortSession) => {
+            if (err) reject(err);
+            resolve(returnedDistortSession);
+        });
+    });
+};
+
 
 
 // This utility returns a session information given a session unique ID
@@ -36,27 +48,34 @@ distortSessionUtils.getDistortSessionByDistortSessionUID = distortSessionID => {
 //     });
 // };
 
+// [Admin] This utility starts a session information given a session unique ID
 distortSessionUtils.startDistortSessionWithDistortSessionUID = distortSessionID => {
-
-    console.log('Performing lookup on this id: ', distortSessionID);
-
     return new Promise((resolve, reject) => {
 
         const filter = {broadcastUID : distortSessionID}
         const update = { isSessionActive: true};
 
         distortSessionModel.findOneAndUpdate(filter, update, (err, ret) => {
-            if (err) {
-                console.log('Error findOneAndUpdate: ', err);
-                reject(err);
-            }
-            else {
-                console.log('Did findOneAndUpdate: ');
-                resolve(ret);
-            }
+            if (err) { reject(err); }
+            else { resolve(ret); }
         });
     });
 };
+
+// [Admin] This utility stops a session given a session unique ID
+distortSessionUtils.terminateDistortSessionWithDistortSessionUID = distortSessionID => {
+    return new Promise((resolve, reject) => {
+
+        const filter = {broadcastUID : distortSessionID}
+        const update = { isSessionActive: false};
+
+        distortSessionModel.findOneAndUpdate(filter, update, (err, ret) => {
+            if (err) { reject(err); }
+            else { resolve(ret); }
+        });
+    });
+};
+
 
 
 
