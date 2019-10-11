@@ -1,12 +1,12 @@
 #!/bin/sh
 
 pwd
-cd /root/distort-provisioning-server
+sudo cd /root/distort-provisioning-server
 pwd
 git stash
 git checkout master
 git pull origin master
 npm install
-pm2 list
-pm2 restart 0
+sudo pm2 list
+sudo pm2 restart 0
 
