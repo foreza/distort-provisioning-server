@@ -15,7 +15,7 @@ distortSessionUtils.createSession = newDistortSession => {
 distortSessionUtils.getDistortSessionByDistortSessionUID = distortSessionID => {
     return new Promise((resolve, reject) => {
         console.log('Performing lookup on this id: ', distortSessionID);
-        distortSessionModel.find({broadcastUID : distortSessionID}, (err, returnedDistortSession) => {
+        distortSessionModel.findOne({broadcastUID : distortSessionID}, (err, returnedDistortSession) => {
             if (err) reject(err);
             resolve(returnedDistortSession);
         });
@@ -26,7 +26,7 @@ distortSessionUtils.getDistortSessionByDistortSessionUID = distortSessionID => {
 distortSessionUtils.getActiveDistortSessionByDistortSessionUID = distortSessionID => {
     return new Promise((resolve, reject) => {
         console.log('Performing lookup on this id: ', distortSessionID);
-        distortSessionModel.find({broadcastUID : distortSessionID, isSessionActive: true}, (err, returnedDistortSession) => {
+        distortSessionModel.findOne({broadcastUID : distortSessionID, isSessionActive: true}, (err, returnedDistortSession) => {
             if (err) reject(err);
             resolve(returnedDistortSession);
         });
