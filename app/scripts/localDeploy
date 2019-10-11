@@ -1,6 +1,8 @@
 #!/bin/sh
 
-cd ~/distort-provisioning-server/
+pwd
+cd /root/distort-provisioning-server
+pwd
 git stash
 git checkout master
 git pull origin master
