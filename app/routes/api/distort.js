@@ -2,12 +2,13 @@ const router = require('express').Router();
 const distortUtils = require('../../utilities/utils_distort');
 
 
-router.get('/', (req, res) => {
+router.get('/:uid', (req, res) => {
 
-	console.log('req: ' + req.query.distortUID);
+	//  Look up uid from our URL path
+	console.log('req: ' + req.params.uid);
 
-	if(req.query.distortUID){
-		distortUtils.getDistortSessionByDistortSessionUID(req.query.distortUID)
+	if(req.params.uid){
+		distortUtils.getDistortSessionByDistortSessionUID(req.params.uid)
 			.then(session => {
 				if(!session){
 					console.log('ERROR [-1], no session with that ID' )
@@ -17,8 +18,13 @@ router.get('/', (req, res) => {
 					return res.send(session);
 				}
 			});
-	}	
-	else {
+	}
+});
+
+
+// [Admin] Get all of the sessions.
+router.get('/', (req, res) => {
+
 		distortUtils.listAllDistortSessions().then(sessionList => {
 			if (!sessionList){
 				return res.sendStatus(400);
@@ -26,11 +32,14 @@ router.get('/', (req, res) => {
 				return res.send(sessionList);
 			}
 		});
-	}
+		
 });
 
 router.post('/', (req, res) => {
-	const { broadcastUID, broadcastText } = req.body;
+
+	const { broadcastUID, broadcastText} = req.body;
+
+	console.log('POST request!!', broadcastUID);
 
 	// If we are not provided the ID or fname or last name in the req body, fail it
 	if (!broadcastUID || !broadcastText) {
@@ -42,6 +51,34 @@ router.post('/', (req, res) => {
 
 
 });
+
+
+router.put('/', (req, res) => {
+
+	const { broadcastUID } = req.body;
+
+	console.log('Put request!!', broadcastUID);
+
+
+	if(broadcastUID){
+		distortUtils.startDistortSessionWithDistortSessionUID(broadcastUID)
+			.then(session => {
+				if(!session){
+					console.log('ERROR [-1], no session with that ID' )
+					return res.sendStatus(404)
+				}else{
+					console.log('SUCCESS [], session found with that ID' )
+					return res.sendStatus(202)
+				}
+			});
+	} else {
+		console.log('ERROR [-1], invalid request' )
+		return res.sendStatus(404)
+	}
+
+
+});
+
 
 
 
