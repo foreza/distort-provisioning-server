@@ -1,2 +1,2 @@
 #!/bin/sh
-./node_modules/.bin/mocha ./app/tests/smoketest.js
+./node_modules/.bin/mocha ./app/tests/smoketest.js --exit
