@@ -5,5 +5,5 @@ git stash
 git checkout master
 git pull origin master
 npm install
-nodemon
+pm2 restart 0
 
