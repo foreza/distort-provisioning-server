@@ -1,7 +1,8 @@
 #!/bin/sh
 
 pwd
-sudo cd /root/distort-provisioning-server
+sudo -i
+cd /root/distort-provisioning-server
 pwd
 git stash
 git checkout master
