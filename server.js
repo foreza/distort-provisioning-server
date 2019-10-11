@@ -37,3 +37,5 @@ app.use(express.static('app/views'));
 
 app.listen(port);
 console.log("Server is currently running on port "+ port);
+
+module.exports = app;
