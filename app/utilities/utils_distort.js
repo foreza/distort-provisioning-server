@@ -35,7 +35,7 @@ distortSessionUtils.getActiveDistortSessionByDistortSessionUID = distortSessionI
 
 
 // [Admin] This utility starts a session information given a session unique ID
-distortSessionUtils.startDistortSessionWithDistortSessionUID = distortSessionID => {
+distortSessionUtils.activateDistortSessionWithDistortSessionUID = distortSessionID => {
     return new Promise((resolve, reject) => {
 
         const filter = {broadcastUID : distortSessionID}
@@ -49,7 +49,7 @@ distortSessionUtils.startDistortSessionWithDistortSessionUID = distortSessionID 
 };
 
 // [Admin] This utility stops a session given a session unique ID
-distortSessionUtils.stopDistortSessionWithDistortSessionUID = distortSessionID => {
+distortSessionUtils.deactivateDistortSessionWithDistortSessionUID = distortSessionID => {
     return new Promise((resolve, reject) => {
 
         const filter = {broadcastUID : distortSessionID}
