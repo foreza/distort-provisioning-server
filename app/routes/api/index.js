@@ -3,9 +3,9 @@ const router = require('express').Router();
 const distortSessions = require('./distort');
 router.use('/distort', distortSessions);
 
-
+// Nobody should be accessing this.
 router.get('/', (req, res) => {
-    return res.send("Can't touch this");
+    return res.sendStatus(403);
 });
 
 

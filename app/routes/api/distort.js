@@ -2,6 +2,10 @@ const router = require('express').Router();
 const distortUtils = require('../../utilities/utils_distort');
 
 
+// [Public] Get an active session by a provide UID.
+/*
+	- By default, the session will be set to false (not broadcasting)
+*/
 router.get('/:uid', (req, res) => {
 
 	//  Look up uid from our URL path
@@ -22,6 +26,30 @@ router.get('/:uid', (req, res) => {
 });
 
 
+// [Public] Get an active session by a provide UID.
+/*
+	- By default, the session will be set to false (not broadcasting)
+*/
+router.delete('/:uid', (req, res) => {
+
+	//  Look up uid from our URL path
+	console.log('req: ' + req.params.uid);
+
+	if(req.params.uid){
+		distortUtils.removeDistortSessionWithDistortSessionUID(req.params.uid)
+			.then(session => {
+				if(!session){
+					console.log('ERROR [-1], no session with that ID' )
+					return res.sendStatus(404)
+				}else{
+					console.log('SUCCESS [], session found and deleted with that ID' )
+					return res.status(200).send(session);
+				}
+			});
+	}0
+});
+
+
 // [Admin] Get all of the sessions.
 router.get('/', (req, res) => {
 
@@ -35,10 +63,24 @@ router.get('/', (req, res) => {
 		
 });
 
+
+
+// [Admin] Remove all of the sessions.
+router.delete('/', (req, res) => {
+
+	distortUtils.deleteAllDistortSessions().then(sessionList => {
+		if (!sessionList){
+			return res.sendStatus(400);
+		} else {
+			return res.send(sessionList);
+		}
+	});
+	
+});
+
 router.post('/', (req, res) => {
 
 	const { broadcastUID, broadcastText} = req.body;
-
 	console.log('POST request!!', broadcastUID);
 
 	// If we are not provided the ID or fname or last name in the req body, fail it
@@ -53,12 +95,10 @@ router.post('/', (req, res) => {
 });
 
 
-router.put('/', (req, res) => {
+router.put('/activate', (req, res) => {
 
 	const { broadcastUID } = req.body;
-
 	console.log('Put request!!', broadcastUID);
-
 
 	if(broadcastUID){
 		distortUtils.startDistortSessionWithDistortSessionUID(broadcastUID)

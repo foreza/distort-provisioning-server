@@ -34,20 +34,6 @@ distortSessionUtils.getActiveDistortSessionByDistortSessionUID = distortSessionI
 };
 
 
-
-// This utility returns a session information given a session unique ID
-// distortSessionUtils.startDistortSessionWithDistortSessionUID = distortSessionID => {
-//     return new Promise((resolve, reject) => {
-//         console.log('Performing lookup on this id: ', distortSessionID);
-//         distortSessionModel.updateOne({broadcastUID : distortSessionID}, {
-//             isSessionActive: true
-//           }, (err, ret) => {
-//             if (err) reject(err);
-//             resolve(ret);
-//         });
-//     });
-// };
-
 // [Admin] This utility starts a session information given a session unique ID
 distortSessionUtils.startDistortSessionWithDistortSessionUID = distortSessionID => {
     return new Promise((resolve, reject) => {
@@ -63,7 +49,7 @@ distortSessionUtils.startDistortSessionWithDistortSessionUID = distortSessionID 
 };
 
 // [Admin] This utility stops a session given a session unique ID
-distortSessionUtils.terminateDistortSessionWithDistortSessionUID = distortSessionID => {
+distortSessionUtils.stopDistortSessionWithDistortSessionUID = distortSessionID => {
     return new Promise((resolve, reject) => {
 
         const filter = {broadcastUID : distortSessionID}
@@ -77,10 +63,23 @@ distortSessionUtils.terminateDistortSessionWithDistortSessionUID = distortSessio
 };
 
 
+// [Admin] This utility removes a session given a session unique ID
+distortSessionUtils.removeDistortSessionWithDistortSessionUID = distortSessionID => {
+    return new Promise((resolve, reject) => {
+
+        const filter = {broadcastUID : distortSessionID}
+
+        distortSessionModel.findOneAndDelete(filter, (err, ret) => {
+            if (err) { reject(err); }
+            else { resolve(ret); }
+        });
+    });
+};
 
 
 
-// This utility lists all known distort sessions in the DB
+
+// [Admin] This utility lists all known distort sessions in the DB
 distortSessionUtils.listAllDistortSessions = () => {
   return new Promise((resolve, reject) => {
     distortSessionModel.find({}, function(err, distortSessionList) {
@@ -94,5 +93,18 @@ distortSessionUtils.listAllDistortSessions = () => {
 });
 };
 
+
+// [Admin] This utility lists all known distort sessions in the DB
+distortSessionUtils.deleteAllDistortSessions = () => {
+    return new Promise((resolve, reject) => {
+      distortSessionModel.remove({}, function(err, emptiness) {
+        if (err){
+          reject(err);
+        }
+        resolve(emptiness);
+      });
+  
+  });
+  };
 
 module.exports = distortSessionUtils;
