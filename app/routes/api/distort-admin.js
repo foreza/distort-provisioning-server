@@ -27,6 +27,52 @@ router.get('/:uid', (req, res) => {
 });
 
 
+// [Admin] Activate a distort session and deactivate it shortly afterwards
+router.put('/activateWithLimit', (req, res) => {
+
+	const { broadcastUID } = req.body;
+	console.log('Activation request with limit!!', broadcastUID);
+
+	if(broadcastUID){
+		distortUtils.activateDistortSessionWithDistortSessionUID(broadcastUID)
+			.then(session => {
+				if(!session){
+					console.log('ERROR [-1], no session with that ID' )
+					return res.sendStatus(404)
+				}else{
+					console.log('SUCCESS [], session found with that ID' )
+					
+					// Close the session after some time - TODO: There is totally a better way to do this, this makes this not truly 'RESTFUL'
+					/*
+						- Perhaps consider adding this to a set-interval "sweep and clean" so that we don't cause weird logic.
+					*/
+					setTimeout(function () {
+						console.log('Now disabling limited activation request - ', broadcastUID);
+
+						distortUtils.deactivateDistortSessionWithDistortSessionUID(broadcastUID)
+							.then(session => {
+								if (!session) {
+									console.log('ERROR [-1], no session with that ID')
+									// return res.sendStatus(404)
+								} else {
+									console.log('SUCCESS [], session found with that ID')
+									// return res.sendStatus(202)
+								}
+							});
+					}, 2000);		// TODO: We should be able to configure this value more easily
+
+					return res.sendStatus(202)
+				}
+			});
+	} else {
+		console.log('ERROR [-1], invalid request' )
+		return res.sendStatus(404)
+	}
+
+});
+
+
+
 // [Admin] Activate a distort session
 router.put('/activate', (req, res) => {
 

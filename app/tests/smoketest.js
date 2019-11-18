@@ -92,7 +92,7 @@ describe('Test Case: *PUBLIC* GET on a database with at least one document, usin
 });
 
 
-// This test should test the base api route and enable the session for broadcast.
+// This test should test the base api route and disable the session for broadcast.
 describe('Test Case: *ADMIN* UPDATE on a database using a known UID to deactivate the session', function() {
     it('[Expect: 202] - Session should be updated (and no longer publicly accessible)', function(done) {
     request(app)
@@ -134,5 +134,7 @@ describe('Test Case: *ADMIN* DELETE on a database using same known UID', functio
     })
     
 });
+
+
 
 
