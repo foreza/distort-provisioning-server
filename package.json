@@ -1,4 +1,4 @@
-:q
+{
   "name": "distort-server",
   "version": "0.0.0",
   "description": "Server to be used for provisioning devices quickly through an existing internet connection",
