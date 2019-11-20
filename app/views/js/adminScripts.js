@@ -6,6 +6,10 @@ $(document).ready(function () {
             'Accept': 'application/json'
         }
     });
+
+    // Get the current list of sessions
+    getListOfAllSessions(); 
+
 });
 
 
@@ -33,9 +37,38 @@ function createSession() {
             "broadcastText": $("#form_broadcastContent").val() 
         }),
         processData: false,
-        success: function (data, textStatus, jQxhr) { $(".result").html(data); },
-        error: function (jqXhr, textStatus, errorThrown) { console.log(errorThrown); }
+        success: function (data, textStatus, jQxhr) {
+            console.log("Session created!") },
+        error: function (jqXhr, textStatus, errorThrown) { 
+            console.log(errorThrown); 
+        }
     });
+
+}
+
+function activateSessionTemporarily(sessionID){
+
+    console.log("Activating: ", sessionID);
+
+    $.ajax({
+        url: '/api/distortAdmin/activateWithLimit/',
+        dataType: 'text',
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify (
+            { "broadcastUID": sessionID}
+            ),
+        processData: false,
+        success: function (data) { 
+            console.log("Session: " + sessionID +  " activated!")
+            alert("Session: " + sessionID +  " activated!") 
+        },
+        error: function (jqXhr, textStatus, errorThrown) { 
+            console.log("Session failed to activate: " + errorThrown); 
+        }
+    });
+
+
 
 }
 
@@ -64,7 +97,10 @@ function util_formatSessionData(data) {
             + "<td class='td_genID'>" + data[i]._id + "</td>"
             + "<td class='td_uID'>" + data[i].broadcastUID + "</td>"
             + "<td class='td_isActive'>" + data[i].isSessionActive + "</td>"
-            + "<td id='td_detail[" + [i] + "]'><a class='waves-effect waves-light btn'>Details</a></td>"
+            + "<td id='td_detail[" + [i] + "]'>" 
+            + "<a onClick='activateSessionTemporarily(" 
+            + '"' + data[i].broadcastUID + '"' 
+            + ")' class='waves-effect waves-light btn'>Activate Temporarily</a></td>"
             + "</tr>";
 
     }

@@ -59,9 +59,9 @@ router.put('/activateWithLimit', (req, res) => {
 									// return res.sendStatus(202)
 								}
 							});
-					}, 2000);		// TODO: We should be able to configure this value more easily
+					}, 1000*60*5);		// TODO: We should be able to configure this value more easily.
 
-					return res.sendStatus(202)
+					return res.sendStatus(200)
 				}
 			});
 	} else {
