@@ -1,9 +1,26 @@
 #!/bin/sh
 
+echo "Changing directory to root/dis"
+
 cd /root/distort-provisioning-server
+
+
+echo "Checking out master branch and getting latest updates"
+
 git stash
 git checkout master
 git pull origin master
+
+CURR_VERSION="$(git log --pretty=format:'%h' -n 1)"
+
+echo "Current repo commit hash: $CURR_VERSION, writing this to version.html"
+
+echo "<h1>Version is: $CURR_VERSION</h1>" > app/views/version.html
+
+echo "running NPM install"
 npm install
-pm2 restart 0
+
+echo "restarting pm2 instance"
+
+pm2 restart server
 
