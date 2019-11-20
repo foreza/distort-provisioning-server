@@ -30,8 +30,8 @@ router.get('/:uid', (req, res) => {
 // [Admin] Activate a distort session and deactivate it shortly afterwards
 router.put('/activateWithLimit', (req, res) => {
 
-	const { broadcastUID } = req.body;
-	console.log('Activation request with limit!!', broadcastUID);
+	const { broadcastUID, timeLimit } = req.body;
+	console.log('Activation request of ' + broadcastUID +  'with limit:' + timeLimit);
 
 	if(broadcastUID){
 		distortUtils.activateDistortSessionWithDistortSessionUID(broadcastUID)
@@ -59,9 +59,9 @@ router.put('/activateWithLimit', (req, res) => {
 									// return res.sendStatus(202)
 								}
 							});
-					}, 1000*60*5);		// TODO: We should be able to configure this value more easily.
+					}, timeLimit);		// TODO: We should be able to configure this value more easily.
 
-					return res.sendStatus(200)
+					return res.sendStatus(202)
 				}
 			});
 	} else {

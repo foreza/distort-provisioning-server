@@ -56,7 +56,8 @@ function activateSessionTemporarily(sessionID){
         type: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify (
-            { "broadcastUID": sessionID}
+            { "broadcastUID": sessionID,
+            "timeLimit": 1000*60*5 }        // Default will be 5 minutes, we'll need to change
             ),
         processData: false,
         success: function (data) { 
