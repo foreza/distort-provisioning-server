@@ -82,7 +82,7 @@ distortSessionUtils.removeDistortSessionWithDistortSessionUID = distortSessionID
 // [Admin] This utility lists all known distort sessions in the DB
 distortSessionUtils.listAllDistortSessions = () => {
   return new Promise((resolve, reject) => {
-    distortSessionModel.find({}, function(err, distortSessionList) {
+    distortSessionModel.find({}, "isSessionActive broadcastUID", function(err, distortSessionList) {
       if (err){
         reject(err);
       }
